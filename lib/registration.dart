@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qrapplication/log.dart';
 
 class Regi extends StatefulWidget {
   const Regi({super.key});
@@ -63,7 +64,9 @@ class _MyAppState extends State<Regi> {
                       labelText: 'Phone Number')),
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder:  (context) => developer()));
+              },
               child: Text(
                 'register',
                 style: TextStyle(color: Colors.white),
