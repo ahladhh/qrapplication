@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qrapplication/registration.dart';
 import 'package:qrapplication/qrdart.dart';
+import 'dart:convert' ;
+import 'package:http/http.dart'as http;
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -9,7 +11,30 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp>{
+  TextEditingController password = TextEditingController();
+  TextEditingController rollno = TextEditingController();
+
+  void login()async{
+    Uri url=Uri.parse('https://scnner-web.onrender.com/api/login'
+    );
+    var response =await http.post(url,
+        headers:<String,String>{
+          'Content-Type':'application/json; charset=UTF-8',
+  },
+        body:jsonEncode({'rollno':rollno,'password':password}));
+    print(response.statusCode);
+    print(response.body);
+    if(response.statusCode==200){
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Qr()));
+
+    }else {
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text('reg failed')));
+
+    }
+
+    }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +56,7 @@ class _MyAppState extends State<MyApp> {
             Container(
               width: 600,
               height: 100,
-              child: TextField(
+              child: TextField(controller: rollno,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -42,7 +67,7 @@ class _MyAppState extends State<MyApp> {
             Container(
               width: 600,
               height: 100,
-              child: TextField(
+              child: TextField(controller: password,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -82,4 +107,8 @@ class _MyAppState extends State<MyApp> {
       ),
     );
   }
+}
+
+
+jsonEncode(Map<String, dynamic> map) {
 }

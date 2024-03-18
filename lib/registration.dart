@@ -39,6 +39,7 @@ class _RegiState extends State<Regi> {
 
     }
     }
+
   @override
 
   Widget build(BuildContext context) {
